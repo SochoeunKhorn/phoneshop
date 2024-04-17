@@ -1,6 +1,6 @@
 package com.sochoeun.service;
 
-import com.sochoeun.model.Brand;
+import com.sochoeun.entity.Brand;
 
 public interface BrandService {
     Brand create(Brand brand);

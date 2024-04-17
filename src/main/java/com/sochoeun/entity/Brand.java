@@ -1,4 +1,4 @@
-package com.sochoeun.model;
+package com.sochoeun.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;

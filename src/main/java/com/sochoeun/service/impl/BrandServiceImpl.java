@@ -1,17 +1,11 @@
 package com.sochoeun.service.impl;
 
-import com.sochoeun.exception.ApiException;
-import com.sochoeun.exception.GlobalException;
 import com.sochoeun.exception.NotFoundException;
-import com.sochoeun.model.Brand;
+import com.sochoeun.entity.Brand;
 import com.sochoeun.repository.BrandRepository;
 import com.sochoeun.service.BrandService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

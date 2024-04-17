@@ -1,6 +1,6 @@
 package com.sochoeun.repository;
 
-import com.sochoeun.model.Brand;
+import com.sochoeun.entity.Brand;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
