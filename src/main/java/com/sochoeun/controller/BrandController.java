@@ -5,25 +5,32 @@ import com.sochoeun.model.Brand;
 import com.sochoeun.service.BrandService;
 import com.sochoeun.util.Mapper;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/brands")
-@Slf4j
 public class BrandController {
 
     private final BrandService brandService;
-    @PostMapping("/create")
+    @PostMapping()
     public ResponseEntity<?> createBrand(@RequestBody BrandDTO brandDTO){
         Brand brand = Mapper.toBrand(brandDTO);
         brand = brandService.create(brand);
-        log.info("" + brand);
+        return ResponseEntity.ok(Mapper.toBrandDTO(brand));
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<?> getBrandById(@PathVariable("id") Integer brandId){
+        var brand = brandService.getById(brandId);
+        return ResponseEntity.ok(Mapper.toBrandDTO(brand));
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<?> update(@PathVariable("id") Integer brandId,@RequestBody BrandDTO brandDTO){
+        Brand brand = Mapper.toBrand(brandDTO);
+        brandService.update(brandId,brand);
         return ResponseEntity.ok(Mapper.toBrandDTO(brand));
     }
 }
