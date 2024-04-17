@@ -4,9 +4,12 @@ import com.sochoeun.exception.NotFoundException;
 import com.sochoeun.entity.Brand;
 import com.sochoeun.repository.BrandRepository;
 import com.sochoeun.service.BrandService;
+import com.sochoeun.service.utils.PageUtil;
 import com.sochoeun.specification.BrandFilter;
 import com.sochoeun.specification.BrandSpecification;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -52,7 +55,7 @@ public class BrandServiceImpl implements BrandService {
         return brandRepository.findByNameContaining(name);
     }
 
-    @Override
+    /*@Override
     public List<Brand> getBrands(Map<String, String> params) {
         BrandFilter brandFilter = new BrandFilter();
 
@@ -66,5 +69,33 @@ public class BrandServiceImpl implements BrandService {
         }
         BrandSpecification specification =new  BrandSpecification(brandFilter);
         return brandRepository.findAll(specification);
+    }*/
+
+    @Override
+    public Page<Brand> getBrands(Map<String, String> params) {
+        BrandFilter brandFilter = new BrandFilter();
+
+        if(params.containsKey("name")){
+            String name = params.get("name");
+            brandFilter.setName(name);
+        }
+        if(params.containsKey("id")){
+            String id = params.get("id");
+            brandFilter.setId(Integer.parseInt(id));
+        }
+
+        int pageLimit = PageUtil.DEFAULT_PAGE_LIMIT;
+        if(params.containsKey(PageUtil.PAGE_LIMIT)){
+            pageLimit =Integer.parseInt(params.get(PageUtil.PAGE_LIMIT));
+        }
+
+        int pageNumber = PageUtil.DEFAULT_PAGE_NUMBER;
+        if(params.containsKey(PageUtil.PAGE_NUMBER)){
+            pageNumber =Integer.parseInt(params.get(PageUtil.PAGE_NUMBER));
+        }
+        Pageable pageable = PageUtil.getPageable(pageLimit,pageNumber);
+        BrandSpecification specification =new  BrandSpecification(brandFilter);
+        Page<Brand> page = brandRepository.findAll(specification, pageable);
+        return page;
     }
 }
