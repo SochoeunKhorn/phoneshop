@@ -7,6 +7,8 @@ import com.sochoeun.service.BrandService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class BrandServiceImpl implements BrandService {
@@ -31,9 +33,19 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    public Brand update(Integer brandId, Brand brand) {
+    public Brand updated(Integer brandId, Brand brand) {
         Brand updatedBrand = getById(brandId);
         updatedBrand.setName(brand.getName());
         return brandRepository.save(updatedBrand);
+    }
+
+    @Override
+    public List<Brand> getBrands() {
+        return brandRepository.findAll();
+    }
+
+    @Override
+    public List<Brand> getBrands(String name) {
+        return brandRepository.findByNameContaining(name);
     }
 }
