@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -30,18 +31,27 @@ public class BrandController {
         return ResponseEntity.ok(BrandMapper.INSTANCE.toBrandDTO(brand));
     }
 
-    @GetMapping()
+    /*@GetMapping()
     public ResponseEntity<?> getBrands(){
         List<BrandDTO> list = brandService.getBrands()
                 .stream()
                 .map(BrandMapper.INSTANCE::toBrandDTO)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(list);
-    }
+    }*/
 
     @GetMapping("filter")
     public ResponseEntity<?> getBrandsByName(@RequestParam("name") String name){
         List<BrandDTO> list = brandService.getBrands(name)
+                .stream()
+                .map(BrandMapper.INSTANCE::toBrandDTO)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(list);
+    }
+
+    @GetMapping()
+    public ResponseEntity<?> getBrandsSpecification(@RequestParam Map<String,String> params){
+        List<BrandDTO> list = brandService.getBrands(params)
                 .stream()
                 .map(BrandMapper.INSTANCE::toBrandDTO)
                 .collect(Collectors.toList());

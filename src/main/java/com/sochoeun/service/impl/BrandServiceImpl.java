@@ -4,10 +4,13 @@ import com.sochoeun.exception.NotFoundException;
 import com.sochoeun.entity.Brand;
 import com.sochoeun.repository.BrandRepository;
 import com.sochoeun.service.BrandService;
+import com.sochoeun.specification.BrandFilter;
+import com.sochoeun.specification.BrandSpecification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -47,5 +50,21 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public List<Brand> getBrands(String name) {
         return brandRepository.findByNameContaining(name);
+    }
+
+    @Override
+    public List<Brand> getBrands(Map<String, String> params) {
+        BrandFilter brandFilter = new BrandFilter();
+
+        if(params.containsKey("name")){
+            String name = params.get("name");
+            brandFilter.setName(name);
+        }
+        if(params.containsKey("id")){
+            String id = params.get("id");
+            brandFilter.setId(Integer.parseInt(id));
+        }
+        BrandSpecification specification =new  BrandSpecification(brandFilter);
+        return brandRepository.findAll(specification);
     }
 }
