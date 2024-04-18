@@ -11,6 +11,7 @@ import java.util.List;
 public interface BrandRepository extends JpaRepository<Brand,Integer>, JpaSpecificationExecutor<Brand> {
     List<Brand> findByName(String name);
     List<Brand> findByNameIgnoreCase(String name);
+    List<Brand> findByNameLike(String name);
 
     List<Brand> findByNameContaining(String name);
 
