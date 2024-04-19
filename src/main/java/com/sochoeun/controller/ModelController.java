@@ -1,6 +1,6 @@
 package com.sochoeun.controller;
 
-import com.sochoeun.Mapper.ModelMapper;
+import com.sochoeun.Mapper.ModelEntityMapper;
 import com.sochoeun.dto.ModelDTO;
 import com.sochoeun.entity.Model;
 import com.sochoeun.service.ModelService;
@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class ModelController {
     private final ModelService modelService;
-    private final ModelMapper modelMapper;
+    private final ModelEntityMapper modelEntityMapper;
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody ModelDTO dto){
-        Model model = modelMapper.toModel(dto);
+        Model model = modelEntityMapper.toModel(dto);
         model = modelService.save(model);
-        return ResponseEntity.ok(modelMapper.toModelDto(model));
+        return ResponseEntity.ok(modelEntityMapper.toModelDto(model));
     }
 }
