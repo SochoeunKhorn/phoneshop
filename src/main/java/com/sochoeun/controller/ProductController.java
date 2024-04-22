@@ -1,6 +1,7 @@
 package com.sochoeun.controller;
 
 import com.sochoeun.Mapper.ProductMapper;
+import com.sochoeun.dto.ImportProductDTO;
 import com.sochoeun.dto.ProductDTO;
 import com.sochoeun.entity.Product;
 import com.sochoeun.service.ProductService;
@@ -24,5 +25,14 @@ public class ProductController {
     @GetMapping
     public ResponseEntity<?> getProducts(){
         return ResponseEntity.ok(productService.getProducts());
+    }
+    @PostMapping("/importProduct")
+    public ResponseEntity<?> importProduct(@RequestBody ImportProductDTO dto){
+        productService.importProduct(dto);
+        return ResponseEntity.ok().build();
+    }
+    @GetMapping("/importProduct")
+    public ResponseEntity<?> getProductImportHistory(){
+        return ResponseEntity.ok(productService.getProductImportHistory());
     }
 }
