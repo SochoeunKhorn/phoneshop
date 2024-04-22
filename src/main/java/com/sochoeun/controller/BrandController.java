@@ -4,7 +4,9 @@ import com.sochoeun.Mapper.BrandMapper;
 import com.sochoeun.dto.BrandDTO;
 import com.sochoeun.dto.PageDTO;
 import com.sochoeun.entity.Brand;
+import com.sochoeun.entity.Model;
 import com.sochoeun.service.BrandService;
+import com.sochoeun.service.ModelService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,7 @@ import java.util.stream.Collectors;
 public class BrandController {
 
     private final BrandService brandService;
+    private final ModelService modelService;
     @PostMapping()
     public ResponseEntity<?> createBrand(@RequestBody BrandDTO brandDTO){
         Brand brand = BrandMapper.INSTANCE.toBrand(brandDTO);
@@ -38,6 +41,15 @@ public class BrandController {
     public ResponseEntity<?> getBrandById(@PathVariable("id") Integer brandId){
         var brand = brandService.getById(brandId);
         return ResponseEntity.ok(BrandMapper.INSTANCE.toBrandDTO(brand));
+    }
+    @GetMapping("/{id}/models")
+    public ResponseEntity<?> getAllBrandById(@PathVariable("id") Integer brandId,
+                                             @RequestParam(value = "_pageNo",required = false,defaultValue = "0") Integer pageNo,
+                                             @RequestParam(value = "_pageSize",required = false,defaultValue = "5") Integer pageSize
+    ){
+        Page<Model> pages = modelService.findAllByBrandIdPageable(brandId, pageNo, pageSize);
+        PageDTO pageDTO = new PageDTO(pages);
+        return ResponseEntity.ok(pageDTO);
     }
 
     /*@GetMapping()
