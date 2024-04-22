@@ -95,7 +95,7 @@ public class BrandServiceImpl implements BrandService {
         }
 
         Pageable pageable = PageUtil.getPageable(pageLimit,pageNumber);
-        BrandSpecification specification =new  BrandSpecification(brandFilter);
+        BrandSpecification specification = new  BrandSpecification(brandFilter);
         Page<Brand> page = brandRepository.findAll(specification, pageable);
         return page;
     }
