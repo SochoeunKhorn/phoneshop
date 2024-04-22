@@ -1,0 +1,28 @@
+package com.sochoeun.controller;
+
+import com.sochoeun.Mapper.ProductMapper;
+import com.sochoeun.dto.ProductDTO;
+import com.sochoeun.entity.Product;
+import com.sochoeun.service.ProductService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/products")
+public class ProductController {
+    private final ProductService productService;
+    private final ProductMapper productMapper;
+
+    @PostMapping
+    public ResponseEntity<?> create(@RequestBody ProductDTO dto){
+        Product product = productMapper.toProduct(dto);
+        productService.create(product);
+        return ResponseEntity.ok(product);
+    }
+    @GetMapping
+    public ResponseEntity<?> getProducts(){
+        return ResponseEntity.ok(productService.getProducts());
+    }
+}

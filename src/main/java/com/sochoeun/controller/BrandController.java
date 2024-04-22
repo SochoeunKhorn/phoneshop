@@ -31,14 +31,14 @@ public class BrandController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<?> update(@PathVariable("id") Integer brandId,@RequestBody BrandDTO brandDTO){
+    public ResponseEntity<?> update(@PathVariable("id") Long brandId,@RequestBody BrandDTO brandDTO){
         Brand brand = BrandMapper.INSTANCE.toBrand(brandDTO);
         brandService.updated(brandId,brand);
         return ResponseEntity.ok(BrandMapper.INSTANCE.toBrandDTO(brand));
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<?> getBrandById(@PathVariable("id") Integer brandId){
+    public ResponseEntity<?> getBrandById(@PathVariable("id") Long brandId){
         var brand = brandService.getById(brandId);
         return ResponseEntity.ok(BrandMapper.INSTANCE.toBrandDTO(brand));
     }
