@@ -1,7 +1,9 @@
 package com.sochoeun.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -16,6 +18,7 @@ public class ProductImportHistory {
     private Long id;
 
     @Column(name = "date_import")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime dateImport;
 
     @Column(name = "import_unit")

@@ -11,6 +11,8 @@ import com.sochoeun.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -53,6 +55,7 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(product);
 
         // create product history
+        importDTO.setDateImport(LocalDateTime.now());
         ProductImportHistory productImportHistory = productMapper.toProductImportHistory(importDTO, product);
         importProductHistoryRepository.save(productImportHistory);
     }
