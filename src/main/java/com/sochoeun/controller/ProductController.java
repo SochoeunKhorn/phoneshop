@@ -8,6 +8,9 @@ import com.sochoeun.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,7 +25,12 @@ public class ProductController {
         productService.create(product);
         return ResponseEntity.ok(product);
     }
-    @GetMapping
+    @PostMapping("/upload/excel")
+    public ResponseEntity<?> uploadProduct(@RequestParam("file")MultipartFile file){
+        Map<Integer, String> integerStringMap = productService.uploadProduct(file);
+        return ResponseEntity.ok(integerStringMap);
+    }
+    @GetMapping()
     public ResponseEntity<?> getProducts(){
         return ResponseEntity.ok(productService.getProducts());
     }
