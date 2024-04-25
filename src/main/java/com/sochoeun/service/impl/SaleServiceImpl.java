@@ -6,6 +6,7 @@ import com.sochoeun.entity.Product;
 import com.sochoeun.entity.Sale;
 import com.sochoeun.entity.SaleDetail;
 import com.sochoeun.exception.ApiException;
+import com.sochoeun.exception.NotFoundException;
 import com.sochoeun.repository.ProductRepository;
 import com.sochoeun.repository.SaleDetailRepository;
 import com.sochoeun.repository.SaleRepository;
@@ -76,4 +77,45 @@ public class SaleServiceImpl implements SaleService {
 
 
      }
+
+    @Override
+    public Sale getSale(Long id) {
+        return saleRepository.findById(id).orElseThrow(()->new NotFoundException("Sale",id));
+    }
+
+    @Override
+    public void cancelSell(Long sale_id) {
+        Sale sale = getSale(sale_id);
+        sale.setActive(false);
+        saleRepository.save(sale);
+
+        // update product available (update stock)
+        // get all product_id that sell
+        List<SaleDetail> saleDetails = saleDetailRepository.findAllBySaleId(sale_id);
+        List<Long> productIds = saleDetails.stream()
+                .map(sd -> sd.getProduct().getId())
+                .toList();
+
+        // find all product and map
+        List<Product> products = productRepository.findAllById(productIds);
+        Map<Long,Product> productMap = products.stream()
+                .collect(Collectors.toMap(Product::getId,Function.identity()));
+
+        // update stock back
+        saleDetails.forEach(sd -> {
+            Product product = productMap.get(sd.getProduct().getId());
+            product.setAvailableUnit(product.getAvailableUnit()+sd.getUnit());
+            productRepository.save(product);
+        });
+    }
+
+    @Override
+    public List<Sale> getSales() {
+        return saleRepository.findAll();
+    }
+
+    @Override
+    public List<SaleDetail> getSaleDetails() {
+        return saleDetailRepository.findAll();
+    }
 }

@@ -4,10 +4,7 @@ import com.sochoeun.dto.SaleDTO;
 import com.sochoeun.service.SaleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,5 +16,18 @@ public class SaleController {
     public ResponseEntity<?> sell(@RequestBody SaleDTO saleDTO){
         saleService.sellProduct(saleDTO);
         return ResponseEntity.ok("Success");
+    }
+    @PutMapping("/{id}/cancel")
+    public ResponseEntity<?> cancerSell(@PathVariable("id") Long id){
+        saleService.cancelSell(id);
+        return ResponseEntity.ok().build();
+    }
+    @GetMapping
+    public ResponseEntity<?> getSales(){
+        return ResponseEntity.ok(saleService.getSales());
+    }
+    @GetMapping("/details")
+    public ResponseEntity<?> getSaleDetails(){
+        return ResponseEntity.ok(saleService.getSaleDetails());
     }
 }

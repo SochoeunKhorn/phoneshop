@@ -18,4 +18,6 @@ public class Sale {
     @Column(name = "sold_date")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime soldDate;
+
+    private Boolean active;
 }
