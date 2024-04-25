@@ -145,4 +145,12 @@ public class ProductServiceImpl implements ProductService {
         }
         return map;
     }
+
+    @Override
+    public void setSalePrice(Long productId, BigDecimal price) {
+
+        Product product = getProduct(productId);
+        product.setSalePrice(price);
+        productRepository.save(product);
+    }
 }

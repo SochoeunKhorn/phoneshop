@@ -1,5 +1,6 @@
 package com.sochoeun.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -15,5 +16,6 @@ public class Sale {
     private Long id;
 
     @Column(name = "sold_date")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime soldDate;
 }

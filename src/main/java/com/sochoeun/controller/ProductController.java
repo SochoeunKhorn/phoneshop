@@ -2,11 +2,14 @@ package com.sochoeun.controller;
 
 import com.sochoeun.Mapper.ProductMapper;
 import com.sochoeun.dto.ImportProductDTO;
+import com.sochoeun.dto.PriceDTO;
 import com.sochoeun.dto.ProductDTO;
 import com.sochoeun.entity.Product;
 import com.sochoeun.service.ProductService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,6 +18,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/products")
+@Validated
 public class ProductController {
     private final ProductService productService;
     private final ProductMapper productMapper;
@@ -42,5 +46,10 @@ public class ProductController {
     @GetMapping("/importProduct")
     public ResponseEntity<?> getProductImportHistory(){
         return ResponseEntity.ok(productService.getProductImportHistory());
+    }
+    @PostMapping("/{id}/setSalePrice")
+    public ResponseEntity<?> setSalePrice( @PathVariable("id") Long productId,@Valid @RequestBody PriceDTO priceDTO){
+        productService.setSalePrice(productId,priceDTO.getPrice());
+        return ResponseEntity.ok(productService.getProduct(productId));
     }
 }

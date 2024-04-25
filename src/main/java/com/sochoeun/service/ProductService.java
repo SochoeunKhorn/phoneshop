@@ -5,6 +5,7 @@ import com.sochoeun.entity.Product;
 import com.sochoeun.entity.ProductImportHistory;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -16,4 +17,5 @@ public interface ProductService {
     Product getByModelIdAndColorId(Long modelId,Long colorId);
     void importProduct(ImportProductDTO importDTO);
     Map<Integer, String> uploadProduct(MultipartFile file);
+    void setSalePrice(Long productId, BigDecimal price);
 }
